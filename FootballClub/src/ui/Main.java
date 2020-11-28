@@ -1,5 +1,6 @@
 package ui;
 import java.util.Scanner;
+import model.Club;
 
 public class Main {
     Scanner sc;
