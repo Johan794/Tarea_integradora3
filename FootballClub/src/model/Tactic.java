@@ -1,5 +1,5 @@
 package model;
 
-public enum Tactics {
+public enum Tactic {
     POSSESSION , COUNTERATTACK , HIGPRESSION , DEFAULT
 }

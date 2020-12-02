@@ -3,14 +3,12 @@ package model;
 public class LineUp {
     private String date;
     private int  formation[][];
-    private Tactics teamTactics;
+    private Tactic teamTactics;
   
-    //modificar con los enums y la formacion
-    public LineUp(String date){
+    public LineUp(String date, String teamTactics){
         this.date= date;
-        
-
-
+        this.teamTactics= Tactic.valueOf(teamTactics);
+        formation= new int[7][10];
     }
     
 }

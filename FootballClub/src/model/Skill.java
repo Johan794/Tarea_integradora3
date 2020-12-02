@@ -1,5 +1,5 @@
 package model;
 
-public enum Skills {
+public enum Skill {
     OFFENSIVE , DEFENSIVE , CONTROLLER , LAB_PLAYS 
 }

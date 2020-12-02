@@ -1,12 +1,12 @@
 package model;
 
-public abstract class Coach extends Employee{
-   
+public abstract class Coach extends Employee {
+
     private int experienceYears;
 
-    public Coach(String name, String id, double salary, String status, int experienceYears){
-        super(name, id, salary, status);
-        this.experienceYears=experienceYears;
+    public Coach(String name, String id, double salary, int experienceYears) {
+        super(name, id, salary);
+        this.experienceYears = experienceYears;
 
     }
 
@@ -23,5 +23,12 @@ public abstract class Coach extends Employee{
     public void setExperienceYears(int experienceYears) {
         this.experienceYears = experienceYears;
     }
+
+    @Override
+    public String infoEmployee() {
+        return super.infoEmployee();
+    }
+
+    
 
 }
