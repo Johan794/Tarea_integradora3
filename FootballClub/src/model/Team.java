@@ -71,6 +71,14 @@ public class Team {
         return players;
     }
 
+    public ArrayList<LineUp> getLineUp(){
+        return teamLineUp;
+    }
+
+    public String getName(){
+        return name;
+    }
+
      /**
      * Method: hasMain <br>
      * this method helps to check if the team already has a Main coach <br>

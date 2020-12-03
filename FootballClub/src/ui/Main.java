@@ -55,16 +55,17 @@ public class Main {
 				"Main menu, please pick an option\n" +
 				"[1] I want to hire a new Employee \n" +
 				"[2] I want to fire an Employee \n"+
-				"(3) I want to see and calculate the market price of my employees\n"+
-				"(4) I want to set stars for a player\n"+
+				"[3] I want to set the rating for the players\n"+
+				"[4] I want to see and calculate the market price of my employees\n"+
 				"(5) I want to put a player in a dressing room \n"+
 				"(6) I want to put a coach in a office \n"+
 				"(7) I want to set a new Line up\n"+
-				"(8) I want to see the information of all the employees of the club\n"+
+				"[8] I want to see the information of all the employees of the club\n"+
 				"[9] I want to see the information of a specific Team\n"+
 				"(10) I want to see the line up\n"+
 				"(11) I want to see the players at the dressing room\n"+
-				"(12) I want to see the Coaches at offices\n"+  
+				"(12) I want to see the Coaches at offices\n"+ 
+				"(13) I want to see the information of the club\n"+ 
 				"[0] I want to leave the application"
 				);
 		     option= sc.nextInt();
@@ -79,6 +80,7 @@ public class Main {
 		String employee="";
 		String idEmployee="";
 		String team="";
+		double newRating;
 		switch(operation) {
 		case 0:
 			System.out.println("Bye!");
@@ -103,20 +105,27 @@ public class Main {
 									"[2] Team B\n"
 									); choose=sc.nextInt();
 						team=setTeam(choose);
+					sc.nextLine();	
 				 System.out.println("This is the information of all the employees currently working at "+team+"\n");
 				 System.out.println(myClub.employeesInformation(team));	 
 				 System.out.println("Now type the id of the Employee that you want to fire");
 				   idEmployee=sc.nextLine();
-				
 				System.out.println(myClub.fireEmployee(team, employee, idEmployee));					     
 			break;
 	
-		case 3:
-			
+		case 3:System.out.println("Please type the name of the player that you want to rate");
+				 employee=sc.nextLine();
+				 System.out.println("Which team does the Player belongs?\n"+
+									"[1] Team A\n"+
+									"[2] Team B\n"
+									); choose=sc.nextInt();
+									team=setTeam(choose);		
+				System.out.print("Now rate the player:");
+				  newRating=sc.nextDouble();
+				 myClub.setRanting(employee, team, newRating); 	
 			break;
 
-		case 4:
-			
+		case 4: System.out.println(myClub.marketPrice());
 			break;
 		
 		default:

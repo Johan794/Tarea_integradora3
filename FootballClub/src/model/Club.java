@@ -1,6 +1,8 @@
 package model;
 import java.util.ArrayList;
 
+
+
 /**
  * description of class Club 
  *
@@ -12,8 +14,9 @@ public class Club {
     private String nit;
     private String creationDate;
 
-    private Office offices[][];
-    private DressingRoom dressingRooms[][];
+    private Coach offices[][];
+    private Player dressingRooms[][];
+    private Player dressingRoom2[][];
     private ArrayList<Employee> employees;
     private Team teamA;
     private Team teamB;
@@ -29,8 +32,9 @@ public class Club {
         this.name = name;
         this.nit = nit;
         this.creationDate = creationDate;
-        offices= new Office[6][6];
-        dressingRooms = new DressingRoom[7][7];
+        offices= new Coach[6][6];
+        dressingRooms = new Player[7][7];
+        dressingRoom2= new Player[7][6];
         employees= new ArrayList<Employee>();
         teamA= new Team("Team A");
         teamB = new Team("Team B");
@@ -56,17 +60,17 @@ public class Club {
         if(team.equals("Team A")){
            if(teamA.addPlayer(newPlayer)){
                employees.add(newPlayer);
-               msg="A new player joined Team A\n";
+               msg=">>>>>A new player joined Team A<<<<<\n";
            }else{
-              msg="Team A is currently full :(\n";
+              msg=">>>>>Team A is currently full :(<<<<<<<\n";
            }
 
         }else{
             if(teamB.addPlayer(newPlayer)){
                 employees.add(newPlayer);
-                msg="A new player joined Team B\n";
+                msg=">>>>>>A new player joined Team B<<<<<<\n";
             }else{
-               msg="Team B is currently full :(\n";
+               msg=">>>>>>Team B is currently full :(<<<<<<<\n";
             }
         }
         
@@ -90,11 +94,11 @@ public class Club {
      */
 
     public String hireEmployee(String name, String id, double salary, int experienceYears,int teamsEncharged, int wonChampionships, String team){
-        String msg="A new Main Coach has been hired";
+        String msg=">>>>>A new Main Coach has been hired<<<<<";
         MainCoach newMainCoach = new MainCoach(name, id, salary, experienceYears, teamsEncharged, wonChampionships);
         if(team.equals("Team A")){
            if(teamA.hasMain()){
-              msg=" There is a Main coach already in this team you can not hire this Coach";
+              msg=" >>>>>There is a Main coach already in this team you can not hire this Coach<<<<<";
                }else{
                 teamA.setMainCoach(newMainCoach);
                 employees.add(newMainCoach);
@@ -102,7 +106,7 @@ public class Club {
                }
            }else{
             if(teamB.hasMain()){
-                msg=" There is a Main coach already in this team you can not hire this Coach";
+                msg=" >>>>>There is a Main coach already in this team you can not hire this Coach<<<<<";
             }else{
                 teamB.setMainCoach(newMainCoach);
                 employees.add(newMainCoach);
@@ -128,11 +132,11 @@ public class Club {
      */
 
     public String hireEmployee(String name, String id, double salary, int experienceYears, boolean wasPlayer, String skill, String team){
-        String msg="A new Coach assistant has been hired";
+        String msg=">>>>A new Coach assistant has been hired<<<<<";
         CoachAssistant newCoachAssistant = new CoachAssistant(name, id, salary, experienceYears, wasPlayer, skill);
         if(team.equals("Team A")){
             if(teamA.hasMain()){
-               msg=" There is a Main coach already in this team you can not hire this Coach";
+               msg=" >>>>>>>There is a Main coach already in this team you can not hire this Coach<<<<<<<";
                 }else{
                  teamA.setCoachAssistant(newCoachAssistant);
                  employees.add(newCoachAssistant);
@@ -140,7 +144,7 @@ public class Club {
                 }
             }else{
              if(teamB.hasMain()){
-                 msg=" There is a Main coach already in this team you can not hire this Coach";
+                 msg=">>>>>>>>There is a Main coach already in this team you can not hire this Coach<<<<<<<";
              }else{
                  teamB.setCoachAssistant(newCoachAssistant);
                  employees.add(newCoachAssistant);
@@ -211,9 +215,9 @@ public class Club {
 
           case "MAIN_COACH": if (team.equals("Team A")) {
                                 if (((teamA.getMainCoach()).getId()).equals(idEmployee)){
-                                    teamA.setMainCoach(null);
                                     fired=(teamA.getMainCoach()).getName();
                                     msg="The main Coach "+(teamA.getMainCoach()).getName()+" has been fired ana kicked  from team A\n";
+                                    teamA.setMainCoach(null);
                                 }
                                 
                              for(int i=0; i<employees.size() && !out; i++ ){
@@ -227,8 +231,8 @@ public class Club {
                             }else{
                                 if (((teamB.getMainCoach()).getId()).equals(idEmployee)){
                                     fired=(teamB.getMainCoach()).getName();
-                                    teamB.setMainCoach(null);
                                     msg="The main Coach "+(teamB.getMainCoach()).getName()+" has been fired ana kicked  from team A\n";
+                                    teamB.setMainCoach(null);
                                 }
                                 
                              for(int i=0; i<employees.size() && !out; i++ ){
@@ -243,9 +247,10 @@ public class Club {
 
           case "ASSISTANT_COACH": if (team.equals("Team A")) {
                                      if (((teamA.getAssistant()).getId()).equals(idEmployee)){
-                                    teamA.setCoachAssistant(null);
                                     fired=(teamA.getAssistant()).getName();
-                                    msg="The main Coach "+(teamA.getAssistant()).getName()+" has been fired ana kicked  from team A\n";
+                                    msg="The main Coach "+(teamA.getAssistant()).getName()+" has been fired and kicked from team A\n";    
+                                    teamA.setCoachAssistant(null);
+                                    
                                      }
                                  for(int i=0; i<employees.size() && !out; i++ ){
                                         if (((employees.get(i)).getName()).equals(fired)) {
@@ -258,8 +263,9 @@ public class Club {
                             }else{
                                 if (((teamB.getAssistant()).getId()).equals(idEmployee)){
                                     fired=(teamB.getAssistant()).getName();
+                                    msg="The main Coach "+(teamB.getAssistant()).getName()+" has been fired ana kicked  from team B\n";
                                     teamB.setCoachAssistant(null);
-                                    msg="The main Coach "+(teamB.getAssistant()).getName()+" has been fired ana kicked  from team A\n";
+                                    
                                 }
                                 for(int i=0; i<employees.size() && !out; i++ ){
                                     if (((employees.get(i)).getName()).equals(fired)) {
@@ -302,24 +308,38 @@ public class Club {
     public String employeesInformation(String team){
         String info="";
         switch(team){
-            case "Team A":info="*****Team's A information******\n";
+            case "Team A":info+="*****Team's A information******\n";
                         for(int i=0; i<(teamA.getPlayers()).length; i++){
                                   if ((teamA.getPlayers())[i]!= null) {
-                                    info+=(teamA.getPlayers())[i].infoEmployee()+"\n";   
+                                    info+=(teamA.getPlayers())[i].infoEmployee()+"\n";
+                                    System.out.println("check");   
                                   }
                                    
                               }
-                        info+=teamA.getMainCoach().infoEmployee()+"\n";
-                        info+=teamA.getMainCoach().infoEmployee()+"\n";      
+                         if(teamA.getMainCoach()!=null){
+                            info+=teamA.getMainCoach().infoEmployee()+"\n";
+                         }
+                         
+                         if ( teamA.getAssistant()!= null) {
+                            info+=teamA.getAssistant().infoEmployee()+"\n";     
+                         }
+                        
+                              
               break;
-            case "Team B": info="*****Team's B information******\n";
+
+            case "Team B": info+="*****Team's B information******\n";
                         for(int i=0; i<(teamB.getPlayers()).length; i++){
                             if ((teamB.getPlayers())[i]!= null) {
                                 info+=(teamB.getPlayers())[i].infoEmployee()+"\n";   
                                  }
                               }
-                        info+=teamB.getMainCoach().infoEmployee()+"\n";
-                        info+=teamB.getMainCoach().infoEmployee()+"\n";  
+                              if(teamB.getMainCoach()!=null){
+                                info+=teamB.getMainCoach().infoEmployee()+"\n";
+                             }
+                             
+                             if ( teamB.getAssistant()!= null) {
+                                info+=teamB.getAssistant().infoEmployee()+"\n";     
+                             }
                     break;  
 
 
@@ -327,8 +347,77 @@ public class Club {
         return info;
     }
 
+    /**
+     * Method: marketPrice <br>
+     * This method will show the prices of the players in the market <br>
+     * <b> pre: <br>
+     * <b> pos: <br>
+     * @return String , with the prices of each member of both teams
+     */
     public String marketPrice(){
-        return null;
+         String marketPrice="";
+         marketPrice+=">>>>>>> Prices of the members of team A <<<<<<<\n";
+         for(int i=0;i<(teamA.getPlayers()).length;i++){
+             if ((teamA.getPlayers())[i] != null) {
+               marketPrice+="[*] Player: "+((teamA.getPlayers())[i]).getName()+"\n"+
+                            "[*] Current price: "+((teamA.getPlayers())[i]).calculateMarketPrice()+"\n";  
+             }
+               
+         }
+         if ( teamA.getMainCoach()!= null) {
+            marketPrice+="[*] Coach: "+(teamA.getMainCoach()).getName()+"\n"+
+                         "[*] Current price: "+(teamA.getMainCoach()).calculateMarketPrice()+"\n";    
+         }
+         
+
+         marketPrice+=">>>>>>> Prices of the members of Team B <<<<<<<<<\n";
+         for(int i=0;i<(teamB.getPlayers()).length;i++){
+            if ((teamB.getPlayers())[i] != null) {
+              marketPrice+="[*] Player: "+((teamB.getPlayers())[i]).getName()+"\n"+
+                           "[*] Current price: "+((teamB.getPlayers())[i]).calculateMarketPrice()+"\n";  
+            }
+              
+        }
+        if ( teamB.getMainCoach()!= null) {
+           marketPrice+="[*] Coach: "+(teamB.getMainCoach()).getName()+"\n"+
+                        "[*] Current price: "+(teamB.getMainCoach()).calculateMarketPrice()+"\n";    
+        }
+        return marketPrice;
+    }
+    
+    /**
+     * Method: setRating <br>
+     * This method helps to set a new rating to a player <br>
+     * <b> pre: there must be almost a player at any team<br>
+     * <b> pos: <br>
+     * @param employee , the name of the player
+     * @param team , the team which the player to rate belongs
+     * @param newRating , the rate that will be given to the player
+     */
+
+    public void setRanting(String employee, String team ,double newRating){
+        boolean out=false;       
+           if(team.equals("Team A")){
+               for(int i=0; i<(teamA.getPlayers()).length && !out; i++){
+                   if((teamA.getPlayers())[i] != null){
+                       if(((teamA.getPlayers())[i].getName()).equals(employee)){
+                        (teamA.getPlayers())[i].setAverageRating(newRating);
+                       }     
+                   }
+                  
+                 }
+           }else{
+               for(int i=0; i<(teamB.getPlayers()).length && !out; i++){
+                   if((teamB.getPlayers())[i] != null){
+                       if(((teamB.getPlayers())[i].getName()).equals(employee)){
+                        (teamB.getPlayers())[i].setAverageRating(newRating);
+                       }     
+                   }
+                  
+                 }
+           }
+       
+
     }
 
 

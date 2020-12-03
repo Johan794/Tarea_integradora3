@@ -42,6 +42,11 @@ public class MainCoach extends Coach implements Profitable {
         this.wonChampionships = wonChampionships;
     }
 
+    
+    /**
+     * 
+     *@return String
+     */
     @Override
     public String infoEmployee() {
         String info="[*] Type of employee: Main coach \n";
@@ -49,7 +54,8 @@ public class MainCoach extends Coach implements Profitable {
         info+="[*] Teams managed: "+teamsEncharged+"\n"+
               "[*] Championships won: "+wonChampionships+"\n"+
               "[*] Experience years: "+getExperienceYears()+"\n"+
-              "[*] Coach's current calcification: "+calculateMarketPrice();
+              "[*] Current stars: "+calculateStars()+"\n";
+
         return info;
     }
     

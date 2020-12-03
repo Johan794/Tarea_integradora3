@@ -74,7 +74,7 @@ public class Player extends Employee implements Profitable {
     }
 
     public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
+        this.averageRating+= averageRating;
     }
 
     public int getNumberGoals() {
@@ -100,7 +100,8 @@ public class Player extends Employee implements Profitable {
         info+=super.infoEmployee();
         info+="[*] Shirt 's number: "+numberShirt+"\n"+
               "[*] player's position "+playerPosition.toString()+"\n"+
-              "[*] Player's current rating: "+calculateStars();
+              "[*] Player's current rating: "+averageRating+"\n"+
+              "[*] Current stars: "+calculateStars()+"\n";
         return info;
     }
 
