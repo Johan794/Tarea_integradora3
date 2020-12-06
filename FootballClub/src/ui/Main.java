@@ -52,21 +52,20 @@ public class Main {
 	public int showMenu() {
 		int option=0;
 			System.out.println(
-				"Main menu, please pick an option\n" +
-				"[1] I want to hire a new Employee \n" +
-				"[2] I want to fire an Employee \n"+
-				"[3] I want to set the rating for the players\n"+
-				"[4] I want to see and calculate the market price of my employees\n"+
-				"(5) I want to put a player in a dressing room \n"+
-				"(6) I want to put a coach in a office \n"+
-				"(7) I want to set a new Line up\n"+
-				"[8] I want to see the information of all the employees of the club\n"+
-				"[9] I want to see the information of a specific Team\n"+
-				"(10) I want to see the line up\n"+
-				"(11) I want to see the players at the dressing room\n"+
-				"(12) I want to see the Coaches at offices\n"+ 
-				"(13) I want to see the information of the club\n"+ 
-				"[0] I want to leave the application"
+				">>>>>>>>>>>>>>>> Main menu, please pick an option <<<<<<<<<<<<<<<<<<<<<<<<<\n" +
+				"<*>[1] I want to hire a new Employee \n" +
+				"<*>[2] I want to fire an Employee \n"+
+				"<*>[3] I want to set the rating for the players\n"+
+				"<*>[4] I want to see and calculate the market price of my employees\n"+
+				"<*>[5] I want to put a team in a dressing room \n"+
+				"<*>[6] I want to put the coaches at the offices \n"+
+				"<*>[7] I want to set a new Line up\n"+
+				"<*>[8] I want to see the information of all the employees of the club\n"+
+				"<*>[9] I want to see the information of a specific Team\n"+
+				"<*>[10] I want to see the line up of a team\n"+
+				"<*>[11] I want to see the information of the club\n"+ 
+				"<*>[0] I want to leave the application\n"+
+				"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n"
 				);
 		     option= sc.nextInt();
 	     	sc.nextLine();
@@ -76,10 +75,11 @@ public class Main {
 	
 	
 	public void executeOperation(int operation) {
-		int typeOfCoach, choose;
+		int typeOfCoach, choose,forEnum;
 		String employee="";
 		String idEmployee="";
 		String team="";
+		String lineUp, tactics, date;
 		double newRating;
 		switch(operation) {
 		case 0:
@@ -127,7 +127,63 @@ public class Main {
 
 		case 4: System.out.println(myClub.marketPrice());
 			break;
-		
+
+		case 5: System.out.println("Which do you want to get in its dressing room?\n"+
+									"[1] Team A\n"+
+									"[2] Team B\n"
+									); choose=sc.nextInt();
+									team=setTeam(choose);
+		    System.out.println(myClub.addToDressingRoom(team));
+			 break;	
+
+		case 6: System.out.println(myClub.addToOffice());
+				  break;
+
+		case 7: System.out.println("for which Team  is the lineup?\n"+
+									   "[1] Team A \n"+
+									   "[2] Team B \n"
+					);		    choose=sc.nextInt();
+					          sc.nextLine();
+									team=setTeam(choose);
+				System.out.println("Please type the line up in the next format: n-n-n-n");
+						 lineUp=sc.nextLine();
+				System.out.println("Now type a date for the new Lineup");
+					date=sc.nextLine();
+				System.out.println("Finally type which tactic that will be used in this line up\n"+
+								   "[1] POSSESSION\n"+
+								   "[2] COUNTERATTACK\n"+
+								   "[3] HIGPRESSION\n"+
+								   "[4] DEFAULT\n"
+				);        forEnum=sc.nextInt();
+				 tactics=valueTactic(forEnum);
+				 myClub.newLineUp(lineUp, team, tactics, date);
+				 System.out.println("New line up set!");
+					 break;
+
+		case 8:System.out.println(myClub.employeesInformation());
+				 break;
+
+		case 9: System.out.println("Which team's information do you want to see\n"+
+								   "[1] Team A\n"+
+								   "[2] Team B\n"
+		); 		         choose=sc.nextInt();
+						 team=setTeam(choose);
+				System.out.println(myClub.employeesInformation(team));
+				  break;
+		case 10:System.out.println("Which team does the line up belong\n"+
+								   "[1] Team A\n"+
+								   "[2] Team B\n"
+		); 		         choose=sc.nextInt();
+						 team=setTeam(choose);
+					sc.nextLine();	 
+				System.out.println("Now type the date of the line up (do not forget write it in the format dd/mm/yy)\n"+
+				                   "or type All to see al the lines up"
+				);	
+					date=sc.nextLine();
+				System.out.println(myClub.lineUpInfo(team, date));
+				  break;
+		case 11: System.out.println(myClub.getInfo());
+		          break;		  		  		  		
 		default:
 			System.out.println("Error, wrong option");
 		
@@ -195,7 +251,8 @@ public class Main {
 					System.out.println("please type the Salary for the coach");
 						  salary = sc.nextDouble();
 					System.out.println("please type the experience years of the coach");
-					   experienceYears=sc.nextInt();	  
+					   experienceYears=sc.nextInt();
+					  sc.nextLine(); 	  
 			        System.out.println("Did de coach was a player, type yes or no");
 					   wasPlayer2=sc.nextLine();
 					 wasPlayer=wasPlayer(wasPlayer2);
@@ -247,7 +304,7 @@ public class Main {
 
 	public boolean wasPlayer(String wasPlayer2){
 		boolean player;
-		if (wasPlayer2.equals("si")) {
+		if (wasPlayer2.equals("yes")) {
 		    player=true;	
 		}else{
 			player=false;
@@ -293,11 +350,9 @@ public class Main {
 					 break;
 	       case 2: value ="COUNTERATTACK";
 					  break;
-		   case 3: value="CONTROLLER";
+		   case 3: value="HIGPRESSION";
 					  break;
-		   case 4: value="HIGPRESSION";
-					  break;
-			case 5: value="DEFAULT";
+			case 4: value="DEFAULT";
 			          break;		  		  		  
 		}
 

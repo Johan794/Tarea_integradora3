@@ -135,16 +135,16 @@ public class Club {
         String msg=">>>>A new Coach assistant has been hired<<<<<";
         CoachAssistant newCoachAssistant = new CoachAssistant(name, id, salary, experienceYears, wasPlayer, skill);
         if(team.equals("Team A")){
-            if(teamA.hasMain()){
-               msg=" >>>>>>>There is a Main coach already in this team you can not hire this Coach<<<<<<<";
+            if(teamA.hasAssistant()){
+               msg=" >>>>>>>All the assistant coaches are already hired, you can not hire this Coach<<<<<<<";
                 }else{
                  teamA.setCoachAssistant(newCoachAssistant);
                  employees.add(newCoachAssistant);
                 
                 }
             }else{
-             if(teamB.hasMain()){
-                 msg=">>>>>>>>There is a Main coach already in this team you can not hire this Coach<<<<<<<";
+             if(teamB.hasAssistant()){
+                 msg=">>>>>>>>All the assistant coaches are already hired,  you can not hire this Coach<<<<<<<";
              }else{
                  teamB.setCoachAssistant(newCoachAssistant);
                  employees.add(newCoachAssistant);
@@ -162,7 +162,7 @@ public class Club {
      * <b> pos: an Employee fired, taken out of the array players if its a player or removed from a team if its a coach and finally its status changed to INACTIVE <br>
      * @param team  , the team selected for the user
      * @param employee , the type of employee that the user wants to fire
-     * @param idEmployee , the id of the employee that will be fired
+     * @param idEmployee , the id of the employee that will be fired, there must not be an id repeated
      * @return String, with a message
      */
     public String fireEmployee(String team, String employee, String idEmployee){
@@ -246,12 +246,19 @@ public class Club {
                              }break;
 
           case "ASSISTANT_COACH": if (team.equals("Team A")) {
-                                     if (((teamA.getAssistant()).getId()).equals(idEmployee)){
-                                    fired=(teamA.getAssistant()).getName();
-                                    msg="The main Coach "+(teamA.getAssistant()).getName()+" has been fired and kicked from team A\n";    
-                                    teamA.setCoachAssistant(null);
-                                    
-                                     }
+                                    for (int i = 0; i <(teamA.getAssistant()).length&& !out; i++) {
+                                        if ((teamA.getAssistant())[i] != null) {
+                                            if (((teamA.getAssistant()[i]).getId()).equals(idEmployee)){
+                                                fired=(teamA.getAssistant()[i]).getName();
+                                                msg="The Assistant Coach "+(teamA.getAssistant()[i]).getName()+" has been fired and kicked from team A\n";    
+                                                teamA.setCoachAssistant(null);
+                                                out=true;
+                                                
+                                                 }
+    
+                                        }
+                                    }
+                                     
                                  for(int i=0; i<employees.size() && !out; i++ ){
                                         if (((employees.get(i)).getName()).equals(fired)) {
                                             (employees.get(i)).setEmployeeStatus("INACTIVE");
@@ -261,11 +268,17 @@ public class Club {
        
                                     }            
                             }else{
-                                if (((teamB.getAssistant()).getId()).equals(idEmployee)){
-                                    fired=(teamB.getAssistant()).getName();
-                                    msg="The main Coach "+(teamB.getAssistant()).getName()+" has been fired ana kicked  from team B\n";
-                                    teamB.setCoachAssistant(null);
-                                    
+                                for (int i = 0; i <(teamB.getAssistant()).length&& !out; i++) {
+                                    if ((teamB.getAssistant())[i] != null) {
+                                        if (((teamB.getAssistant()[i]).getId()).equals(idEmployee)){
+                                            fired=(teamB.getAssistant()[i]).getName();
+                                            msg="The Assistant Coach "+(teamB.getAssistant()[i]).getName()+" has been fired and kicked from team A\n";    
+                                            teamB.setCoachAssistant(null);
+                                            out=true;
+                                            
+                                             }
+
+                                    }
                                 }
                                 for(int i=0; i<employees.size() && !out; i++ ){
                                     if (((employees.get(i)).getName()).equals(fired)) {
@@ -312,7 +325,7 @@ public class Club {
                         for(int i=0; i<(teamA.getPlayers()).length; i++){
                                   if ((teamA.getPlayers())[i]!= null) {
                                     info+=(teamA.getPlayers())[i].infoEmployee()+"\n";
-                                    System.out.println("check");   
+                                    
                                   }
                                    
                               }
@@ -321,7 +334,13 @@ public class Club {
                          }
                          
                          if ( teamA.getAssistant()!= null) {
-                            info+=teamA.getAssistant().infoEmployee()+"\n";     
+                             for (int i = 0; i <(teamA.getAssistant()).length; i++) {
+                                 if ((teamA.getAssistant())[i] != null) {
+                                    info+=teamA.getAssistant()[i].infoEmployee()+"\n"; 
+                                 }
+                                
+                             }
+                                
                          }
                         
                               
@@ -338,7 +357,13 @@ public class Club {
                              }
                              
                              if ( teamB.getAssistant()!= null) {
-                                info+=teamB.getAssistant().infoEmployee()+"\n";     
+                                for (int i = 0; i <(teamB.getAssistant()).length; i++) {
+                                    if ((teamB.getAssistant())[i] != null) {
+                                        info+=teamB.getAssistant()[i].infoEmployee()+"\n"; 
+                                    }
+                                    
+                                }
+                                    
                              }
                     break;  
 
@@ -419,6 +444,231 @@ public class Club {
        
 
     }
+   /** //corregir
+    * Method: addToDressingRoom <br>
+    * This method let the user add a team at a dressing room and save it (the method will save it at the dressing room that still have capacity)<br>
+    * <b> pre: there must be players hired and belong to a team <br>
+    * <b> pos: a new team added to a dressing room depending on the available capacity <br> 
+    * @param team , the team of the player that will be added
+    * @return String a message saying where the player got in or saying that the player couldn't get it because of te security protocols 
+    */
+    public String addToDressingRoom(String team){
+        String msg="";
+        boolean out1=false;
+        //Player theChosenOne=null;
+        boolean out=false;
+             if (team.equals("Team A")) {
+                            for(int k=0; k<(teamA.getPlayers()).length; k++){
+                                if(teamA.getPlayers()[k]!=null){
+                                    for(int i=0; i<dressingRooms.length && !out; i++){
+                                        for(int j=0; j<dressingRooms[0].length && !out; j++){
+                                            if(i%2==0){
+                                                if(j%2==0){
+                                                    if(dressingRooms[i][j]==null){
+                                                        dressingRooms[i][j]=(teamA.getPlayers()[k]);
+                                                        out=true;
+                                                        out1=true;
+                                                        msg="The team A is at the dressing room";
+                                                        
+                                                    }
+                                                    
+                                                }
+                                             }
+                                        }
+                                    }
+                                   out=false; 
+                                }
+                            }                         
+                        
+                    
+                  
+                    
+                } else {
+                    for(int k=0; k<(teamB.getPlayers()).length; k++){
+                        if(teamB.getPlayers()[k]!=null){
+                            for(int i=0; i<dressingRoom2.length && !out; i++){
+                                for(int j=0; j<dressingRoom2[0].length && !out; j++){
+                                    if(i%2==0){
+                                        if(j%2==0){
+                                            if(dressingRoom2[i][j]==null){
+                                                dressingRoom2[i][j]=(teamB.getPlayers()[k]);
+                                                out=true;
+                                                out1=true;
+                                                msg="The team A is at the dressing room";
+                                                
+                                            }
+                                            
+                                        }
+                                     }
+                                }
+                            }
+                           out=false; 
+                        }
+                    }
+                }  
+
+         if(out1==false){
+           msg="We sorry, but the team that you want to get in wont be able to. All the dressing rooms are full\n"+
+               "Remember that the Club follows its security protocols so you have to wait until a player gets out of a dressing room\n";
+        }
+
+
+        return msg;
+    }
+  
+
+     /**
+    * Method: addToOffice<br>
+    * This method let the user add a coach at the office and save it <br>
+    * <b> pre: there must be coaches  hired <br>
+    * <b> pos: a new coach added to the office depending on the available capacity <br> 
+    * @return String a message saying where the player got in or saying that the coach couldn't get it because of te security protocols 
+    */
+    public String addToOffice(){
+        String msg="";
+        boolean out1=false;
+        boolean out=false;
+        Coach theCoach=null;
+        for(int k=0; k<(employees).size(); k++){
+            if((employees.get(k))instanceof Coach &&((employees.get(k).getStatus()).equals(Status.ACTIVE))){
+                theCoach= (Coach)(employees.get(k));
+                    for(int i=0; i<offices.length && !out; i++){
+                        for(int j=0; j<offices[0].length && !out; j++){
+                            if(i%2==0){
+                                if(j%2==0){
+                                    if(offices[i][j]==null){
+                                        offices[i][j]=theCoach;
+                                        out=true;
+                                        out1=true;
+                                        msg=theCoach.getName()+" is at the office "+i+j+"\n";
+                                    }
+                                    
+                                }
+                             }
+                          
+                        }
+                    }
+            }
+            out=false;              
+        }
+        
+        if(out1==false){
+            msg="We sorry, but the coach that you want to get in wont be able to. All the offices are full\n"+
+                "Remember that the Club follows its security protocols so you have to wait until a player gets out of a dressing room\n";
+         }
+        return msg;
+    }
+
+    /**
+     * Method: newLineUp <br>
+     * This method let the user set a new Line up for a team <br>
+     * <b> pre: the string of the line up must contains "-" in order to do the split <br>
+     * <b> pos: a new Line up set and created <br>
+     * @param lineUp , the input with the formation of the line up 
+     * @param team , the team which will have the new line up 
+     * @param tactics , the kind of tactic that the line up will have
+     * @param date , the date of creation of the line up 
+     */
+
+    public void newLineUp(String lineUp, String team, String tactics , String date){
+        String positions[]= lineUp.split("-");
+         
+        if(team.equals("Team A")){
+            teamA.setLineUp(date, tactics, positions);
+        }else{
+            teamB.setLineUp(date, tactics, positions);
+        }
+    }
+    /**
+     * Method: lineUpInfo <br>
+     * This method let the user see all the lines up set for a team <br>
+     * <b> pre: the date for looking the line up that the user wants must follow the format dd/mm/yy <br>
+     * <b> pos: <br> 
+     * @param team , the team chosen by the user , this team must have a line up already set
+     * @param date , the date of the line up which must follow the format dd/mm/yy
+     * @return String with all the  lines up of a team or an specific one 
+     */
+
+    public String lineUpInfo(String team, String date){
+        String info="";
+        if (team.equals("Team A")) {
+            info+=teamA.teamsLineUp(date);
+        } else {
+            info+=teamB.teamsLineUp(date);
+            
+        }
+        
+        return info;
+    }
+    /**
+     * Method: getInfo <br>
+     * This method will show all the information of the club to the user <br>
+     * <b> pre: <br>
+     * <b> pos: <br>
+     * @return String with the info of the club
+     */
+    public String getInfo(){
+         String info="";
+         info+=">>>>>>>>>>>>>>>>>> CLUB'S INFO <<<<<<<<<<<<<<<<<<<<<<<\n"+
+               ">>>> Name:"+name+"\n"+
+               ">>>> Nit: "+nit+"\n"+
+               ">>>> Creation date: "+creationDate+"\n"+
+               "\n"+
+               ">>>>>>>>>>>>>>>>>>>> Teams info <<<<<<<<<<<<<<<<<<<<<<\n"+
+               employeesInformation("Team A")+"\n"+
+               "\n"+
+               employeesInformation("Team B")+"\n"+
+               "\n"+
+               ">>>>>>>>>>>>>>>>>>>>> Dressing rooms info <<<<<<<<<<<<<<\n"+
+               "\n"+
+               ">>>> Team's A dressing room: \n";
+          
+          for(int i=0; i<dressingRooms.length; i++){
+              for(int j=0; j<dressingRooms[0].length; j++){
+                  if(dressingRooms[i][j]==null){
+                      info+="Empty"+"\t";
+                  }else{
+                      info+=(dressingRooms[i][j]).getName()+"\t";
+                  }
+              }
+            info+="\n";  
+          } 
+          
+          info+="\n"+
+               ">>>>Team's B dressing room: \n";
+           for(int i=0; i<dressingRoom2.length; i++){
+              for(int j=0; j<dressingRoom2[0].length; j++){
+                  if(dressingRoom2[i][j]==null){
+                      info+="Empty"+"\t";
+                  }else{
+                      info+=(dressingRoom2[i][j]).getName()+"\t";
+                  }
+              }
+            info+="\n";  
+          }
+          
+          info+=">>>>>>>>>>>> Offices info <<<<<<<<<<<<<<<<< \n"+
+               "\n";
+          for(int i=0; i<offices.length; i++){
+              for(int j=0; j<offices[0].length; j++){
+                   if (offices[i][j]==null) {
+                       info+="Empty"+"\t";
+                   } else {
+                       info+= (offices[i][j]).getName()+"\t";
+                       
+                   }
+              }
+
+             info+="\n"; 
+
+          }     
+
+
+         return info;
+    }
+
+
+
 
 
     

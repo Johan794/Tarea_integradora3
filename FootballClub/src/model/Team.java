@@ -15,19 +15,19 @@ public class Team {
     private ArrayList<LineUp> teamLineUp;
     private Player players[];
     private MainCoach mainCoach;
-    private CoachAssistant assistant;
+    private CoachAssistant assistant[];
     
 
     /**
-     *
-     * @param name
+     * Constructor of the object Team <br>
+     * @param name , the name of the team
      */
     public Team(String name) {
         this.name = name;
         players =  new Player[25];
         teamLineUp = new ArrayList<LineUp>();
+        assistant= new CoachAssistant[3];
         mainCoach=null;
-        assistant=null;
     }
 
     /**
@@ -44,7 +44,7 @@ public class Team {
            if(players[i]==null){
                players[i]=aPlayer;
                available=true;
-               System.out.println("Check");
+               //System.out.println("Check");
            }
        }
        return available;
@@ -56,19 +56,38 @@ public class Team {
     }
 
     public void setCoachAssistant(CoachAssistant newCoachAssistant){
-        this.assistant= newCoachAssistant;
+        boolean out=false;
+        for (int i = 0; i < assistant.length && !out; i++) {
+            if(assistant[i]==null){
+                this.assistant[i]= newCoachAssistant;
+                out=true;
+            }
+            
+        }
+        
     }
 
     public MainCoach getMainCoach(){
         return mainCoach;
     }
 
-    public CoachAssistant getAssistant(){
+    public CoachAssistant[] getAssistant(){
         return assistant;
     }
 
     public Player[] getPlayers(){
         return players;
+    }
+
+    public void setLineUp(String date, String teamTactics, String[] positions){
+        LineUp newLineUp = new LineUp(date, teamTactics);
+        int [] positions2 = new int[positions.length];
+        for(int i = 0; i < positions.length; i++) {
+           positions2[i]= Integer.parseInt(positions[i]);
+        }
+        newLineUp.setFormation(positions2);
+        teamLineUp.add(newLineUp);
+
     }
 
     public ArrayList<LineUp> getLineUp(){
@@ -108,13 +127,60 @@ public class Team {
 
     public boolean hasAssistant(){
         boolean has;
-        if(assistant!=null){
-           has=true;
-        }else{
-           has=false;
+        int x=0;
+        for(int i=0; i<assistant.length; i++){
+              if (assistant[i]!=null) {
+                    x+=1;  
+              } 
         }
 
+        if (x==3) {
+            has=true;
+        } else {
+            has=false;
+        }
         return has;
+
+    }
+
+    /**
+     * Method: TeamsLineUp <br>
+     * This method creates an String with the information of a lineup or all them <br>
+     * <b> pre: <br>
+     * <b> pos: <br>
+     * @param date , the date  of for looking an specific line up or all of them
+     * @return String with the info of the line up 
+     */
+
+    public String teamsLineUp(String date){
+        String lineUpInfo="";
+        boolean out=false;
+        if (date.equals("All")) {
+            for(int i = 0; i < teamLineUp.size(); i++){
+                lineUpInfo+=">>>>>>>>>Line up for the team "+name+"<<<<<<<<<<<<<<\n"+
+                             ">>Date: "+(teamLineUp.get(i)).getDate()+"\n"+
+                             ">>> Tactic: "+(teamLineUp.get(i)).getLineUpTactics()+"\n"+
+                             "\n";
+                         
+                lineUpInfo+=teamLineUp.get(i).lineUpToString()+"\n";
+            }
+            
+        } else {
+            for(int i = 0; i < teamLineUp.size()&& !out; i++){
+                if((teamLineUp.get(i).getDate()).equals(date)){
+                    lineUpInfo+=">>>>>>>>>Line up for the team "+name+"<<<<<<<<<<<<<<\n"+
+                             ">>Date: "+(teamLineUp.get(i)).getDate()+"\n"+
+                             ">>> Tactic: "+(teamLineUp.get(i)).getLineUpTactics()+"\n"+
+                             "\n";
+        
+                    lineUpInfo+=teamLineUp.get(i).lineUpToString()+"\n";;
+                    out=true;    
+                }
+                
+            }
+            
+        }
+        return lineUpInfo;
 
     }
 

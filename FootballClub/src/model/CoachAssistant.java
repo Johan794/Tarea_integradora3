@@ -22,10 +22,16 @@ public class CoachAssistant extends Coach {
 
         return was;
     }
-
+    /**
+     * Method: infoEmployee <br>
+     * This method let the user know all the information of this employee <br>
+     * <b> pre: <br>
+     * <b> pos: <br>
+     * @return String , with all the info of the employee
+     */
     @Override
     public String infoEmployee() {
-        String info="[*] Type of employee: Main coach \n";
+        String info="[*] Type of employee: Assistant coach \n";
         info+=super.infoEmployee();
         info+="[*] Was player: "+wasPlayer()+"\n"+
               "[*] Skills: "+skills.toString()+"\n"+

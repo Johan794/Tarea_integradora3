@@ -61,37 +61,20 @@ public class Player extends Employee implements Profitable {
         return stars;
     }
 
-    public String getNumberShirt() {
-        return numberShirt;
-    }
-
-    public void setNumberShirt(String numberShirt) {
-        this.numberShirt = numberShirt;
-    }
-
-    public double getAverageRating() {
-        return averageRating;
-    }
+   
 
     public void setAverageRating(double averageRating) {
         this.averageRating+= averageRating;
     }
 
-    public int getNumberGoals() {
-        return numberGoals;
-    }
-
-    public void setNumberGoals(int numberGoals) {
-        this.numberGoals = numberGoals;
-    }
-
-    public Position getPlayerPosition() {
-        return playerPosition;
-    }
-
-    public void setPlayerPosition(Position playerPosition) {
-        this.playerPosition = playerPosition;
-    }
+   
+    /**
+     * Method: infoEmployee <br>
+     * This method let the user know all the information of this employee <br>
+     * <b> pre: <br>
+     * <b> pos: <br>
+     * @return String , with all the info of the employee
+     */
 
     @Override
     public String infoEmployee() {

@@ -26,26 +26,15 @@ public class MainCoach extends Coach implements Profitable {
         return stars;
     }
 
-    public int getTeamsEncharged() {
-        return teamsEncharged;
-    }
-
-    public void setTeamsEncharged(int teamsEncharged) {
-        this.teamsEncharged = teamsEncharged;
-    }
-
-    public int getWonChampionships() {
-        return wonChampionships;
-    }
-
-    public void setWonChampionships(int wonChampionships) {
-        this.wonChampionships = wonChampionships;
-    }
+   
 
     
     /**
-     * 
-     *@return String
+     * Method: infoEmployee <br>
+     * This method let the user know all the information of this employee <br>
+     * <b> pre: <br>
+     * <b> pos: <br>
+     * @return String , with all the info of the employee
      */
     @Override
     public String infoEmployee() {
